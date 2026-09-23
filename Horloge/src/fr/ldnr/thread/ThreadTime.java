@@ -9,6 +9,10 @@ public class ThreadTime {
 		Thread thread4 = new Thread(new MonRunnable(4));
 		Thread thread5 = new Thread(new MonRunnable(5));
 
+		/* 
+		 * The results are different because the threads works in parallels and no synchronized.
+		 * Also, the resources are access to a common resource.
+		 * */
 		thread1.start();
 		thread2.start();
 		thread3.start();
