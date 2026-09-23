@@ -9,15 +9,18 @@ public class ThreadTime {
 		Thread thread4 = new Thread(new MonRunnable(4));
 		Thread thread5 = new Thread(new MonRunnable(5));
 
-		/* 
-		 * The results are different because the threads works in parallels and no synchronized.
-		 * Also, the resources are access to a common resource.
-		 * */
+		/*
+		 * The results are different because the threads works in parallels and no
+		 * synchronized. Also, the resources are access to a common resource.
+		 */
 		thread1.start();
 		thread2.start();
 		thread3.start();
 		thread4.start();
 		thread5.start();
+
+		Thread run = new Thread(new TestRunnable("!#$%&\'()*".toCharArray()));
+		run.start();
 	}
 
 	private static class MonRunnable implements Runnable {
@@ -40,6 +43,33 @@ public class ThreadTime {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	private static class TestRunnable implements Runnable {
+		private char[] characterSpecial;
+
+		public TestRunnable(char[] characterSpecial) {
+			this.characterSpecial = characterSpecial;
+		}
+
+		@Override
+		public void run() {
+			String result = "";
+			try {
+				int sizeArry = this.characterSpecial.length;
+
+				for (int indexChar = 0; indexChar < sizeArry; indexChar++) {
+					String repeated = new String(new char[indexChar + 1]).replace('\0',
+							this.characterSpecial[sizeArry - 1]);
+					result = result.concat(
+							this.characterSpecial[indexChar] + repeated + this.characterSpecial[indexChar] + '\n');
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			System.out.print(result);
 		}
 	}
 }
