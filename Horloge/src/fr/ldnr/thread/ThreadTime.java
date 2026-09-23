@@ -1,5 +1,9 @@
 package fr.ldnr.thread;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ThreadTime {
 
 	public static void main(String[] args) throws InterruptedException {
@@ -21,6 +25,14 @@ public class ThreadTime {
 
 		Thread run = new Thread(new TestRunnable("!#$%&\'()*".toCharArray()));
 		run.start();
+		
+
+	    DateFormat df = new SimpleDateFormat("HH:mm:ss");
+	    Thread thread = new Thread(new Clock(1000));
+
+	    System.out.println(df.format(new Date()));
+
+	    thread.start();
 	}
 
 	private static class MonRunnable implements Runnable {
@@ -72,4 +84,24 @@ public class ThreadTime {
 			System.out.print(result);
 		}
 	}
+	
+	private static class Clock implements Runnable {
+	    private long delai;
+
+	    public Clock(long delai) {
+	      this.delai = delai;
+	    }
+
+	    @Override
+	    public void run() {
+	    	while(true) {
+		      try {
+		        Thread.sleep(delai);
+		        System.out.println(new Date());
+		      } catch (InterruptedException e) {
+		        e.printStackTrace();
+		      }
+	    	}
+	    }
+	  }
 }
